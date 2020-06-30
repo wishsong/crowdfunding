@@ -28,7 +28,7 @@
             </li>
         </c:if>
     </c:forEach>
-<%--
+
     <li class="list-group-item tree-closed" >
         <a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
     </li>
@@ -88,5 +88,5 @@
     </li>
     <li class="list-group-item tree-closed" >
         <a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a>
-    </li>--%>
+    </li>
 </ul>

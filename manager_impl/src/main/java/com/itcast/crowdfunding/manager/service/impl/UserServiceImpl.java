@@ -1,6 +1,7 @@
 package com.itcast.crowdfunding.manager.service.impl;
 
 import com.itcast.crowdfunding.bean.User;
+import com.itcast.crowdfunding.exception.DefineException;
 import com.itcast.crowdfunding.manager.dao.UserMapper;
 import com.itcast.crowdfunding.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User login(User user){
-        Map<String,Object> userMap = new HashMap<String,Object>();
-        userMap.put("loginacct",user.getLoginacct());
-        userMap.put("userpswd",user.getUserpswd());
+    public User login(Map userMap) throws DefineException {
 
         User userRes = userMapper.queryUserlogin(userMap);
+        if(userRes==null){
+            throw new DefineException("用户名或密码失败!");
+        }
         return userRes;
     }
 }

@@ -33,10 +33,10 @@
 
 <div class="container">
 
-    <form id="loginForm" action="${APP_PATH}/doLogin.do"  method="POST" class="form-signin" role="form">
+    <form id="loginForm"  method="POST" action="${APP_PATH}/doLogin.do"  class="form-signin" role="form">
 
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
-        <div class="form-group has-success has-feedback">
+        <div class="form-group has-success has-feedback" >
             <input type="text" class="form-control" id="floginacct" name="loginacct" placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
@@ -62,19 +62,66 @@
                 <a href="reg.html">我要注册</a>
             </label>
         </div>
-        <button class="btn btn-lg btn-success btn-block" id="submit"> 登录</button>
+        <a class="btn btn-lg btn-success btn-block" onclick="login()"> 登录</a>
     </form>
-    <div class="alert alert-warning alert-dismissible msgTip" role="alert" >
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>${requestScope.exception.message}</strong>
+
+    <div align="center" class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible msgTip" role="alert" id="in" type="hidden">
+<%--        <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>--%>
+    您尚未登录！
+    <strong >${requestScope.exception.message}</strong>
     </div>
+
 </div>
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script>
-    function dologin() {
-        ${#submit}.onclick()
+
+    $(function(){
+        $("#in").hide();
+    });
+
+    function login() {
+
+        var floginacct = $("#floginacct");
+        var fuserpswd = $("#fuserpswd");
+        var ftype = $("#ftype");
+        var badMag = $("#badMag");
+
+
+        if($.trim(floginacct.val())==""){
+
+            // floginacct.focus();
+            floginacct.val("");
+            floginacct.css("borderColor","red");
+            $("#in").show();
+            $("#in").html("<strong id=\"inn\"></strong>");
+            $("#inn").text("用户名不能为空!");
+            return false;
+        }
+
+        $.ajax({
+                type:"POST",
+                data:{"loginacct" : floginacct.val(),"userpswd":fuserpswd.val(),"type":ftype.val()},
+                url:"${APP_PATH}/doLogin.do",
+
+                beforeSend: function(){
+                    return true;
+                },
+                success : function(result){
+                    if(result.success){
+                      window.location.href = "${APP_PATH}/main.htm";
+                    }else{
+                        alert("not ok");
+                    }
+                },
+                error : function(){
+                    alert("error");
+                },
+
+            });
+    }
+
 </script>
 </body>
 </html>

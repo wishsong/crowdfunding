@@ -22,6 +22,7 @@
     <mvc:annotation-driven></mvc:annotation-driven>
 
     <!-- 字符串字符编码转换 -->
+<!--    将返回的AjaxResult对象转换成一个字符串的形式-->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
