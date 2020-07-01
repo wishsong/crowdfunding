@@ -40,6 +40,7 @@
             <input type="text" class="form-control" id="floginacct" name="loginacct" placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
+        <p id="isNull"><font color="#dc143c">用户名不能为空！</font></p>
         <div class="form-group has-success has-feedback">
             <input type="password" class="form-control" id="fuserpswd" name="userpswd" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -65,11 +66,6 @@
         <a class="btn btn-lg btn-success btn-block" onclick="login()"> 登录</a>
     </form>
 
-    <div align="center" class="col-md-4 col-md-offset-4 alert alert-warning alert-dismissible msgTip" role="alert" id="in" type="hidden">
-<%--        <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>--%>
-    您尚未登录！
-    <strong >${requestScope.exception.message}</strong>
-    </div>
 
 </div>
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
@@ -78,47 +74,48 @@
 <script>
 
     $(function(){
-        $("#in").hide();
+         $("#isNull").hide();
     });
 
     function login() {
-
         var floginacct = $("#floginacct");
         var fuserpswd = $("#fuserpswd");
         var ftype = $("#ftype");
-        var badMag = $("#badMag");
+        var isNull = $("#isNull");
+        var loadingIndex;
 
 
         if($.trim(floginacct.val())==""){
-
-            // floginacct.focus();
             floginacct.val("");
             floginacct.css("borderColor","red");
-            $("#in").show();
-            $("#in").html("<strong id=\"inn\"></strong>");
-            $("#inn").text("用户名不能为空!");
+            isNull.show();
             return false;
         }
 
         $.ajax({
                 type:"POST",
-                data:{"loginacct" : floginacct.val(),"userpswd":fuserpswd.val(),"type":ftype.val()},
+                data:{"loginacct":floginacct.val(),"userpswd":fuserpswd.val(),"type":ftype.val()},
                 url:"${APP_PATH}/doLogin.do",
-
                 beforeSend: function(){
+                    loadingIndex = layer.msg("处理中...",{icon:16});
                     return true;
                 },
                 success : function(result){
+                    layer.close(loadingIndex);
                     if(result.success){
                       window.location.href = "${APP_PATH}/main.htm";
                     }else{
-                        alert("not ok");
+                        $("#isNull").hide();
+                        layer.msg(result.message,{time:2000,icon:5,shift:6},function(){
+                            floginacct.focus();
+                        });
                     }
                 },
                 error : function(){
-                    alert("error");
-                },
-
+                    layer.close(loadingIndex);
+                    $("#isNull").hide();
+                    layer.msg("登录失败！",{time:2000,icon:5,shift:6});
+                }
             });
     }
 

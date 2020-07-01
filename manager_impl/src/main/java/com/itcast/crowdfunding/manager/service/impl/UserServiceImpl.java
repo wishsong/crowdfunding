@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
         User userRes = userMapper.queryUserlogin(userMap);
         if(userRes==null){
-            throw new DefineException("用户名或密码失败!");
+            throw new DefineException("用户名或密码错误!");
         }
         return userRes;
     }

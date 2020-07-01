@@ -55,7 +55,7 @@ public class DispatcherController {
 
     @ResponseBody
     @RequestMapping("/doLogin")
-    public Object doLogin(String loginacct, String  userpswd, String type, HttpSession session, HttpServletRequest request) throws DefineException {
+    public Object doLogin(String loginacct, String  userpswd, String type, HttpSession session, HttpServletRequest request)  {
 
 
 
@@ -72,9 +72,8 @@ public class DispatcherController {
             result.setSuccess(true);
         } catch (DefineException e) {
             result.setSuccess(false);
-            result.setMessage("用户名或密码错误！");
+            result.setMessage(e.getMessage());
             e.printStackTrace();
-            throw e;
         }
 
         return result;

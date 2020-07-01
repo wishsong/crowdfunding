@@ -3,13 +3,13 @@ package com.itcast.crowdfunding.bean;
 import org.springframework.web.multipart.MultipartFile;
 
 public class MemberCert {
-    private Integer id;
+   private Integer id;
 
-    private Integer memberid;
+   private Integer memberid;
 
-    private Integer certid;
+   private Integer certid;
 
-    private String iconpath;
+   private String iconpath;
 
     private MultipartFile fileImg;
 
