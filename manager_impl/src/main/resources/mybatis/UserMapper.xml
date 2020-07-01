@@ -20,5 +20,13 @@
 		from t_user where loginacct=#{loginacct} and userpswd=#{userpswd}
 	</select>
 
+	<select id="queryList"  resultMap="BaseResultMap">
+		select * from t_user limit #{pageno},#{pagesize}
+	</select>
+
+	<select id="queryAllNum"  resultType="int">
+		select count(*) from t_user
+	</select>
+
 
 </mapper>

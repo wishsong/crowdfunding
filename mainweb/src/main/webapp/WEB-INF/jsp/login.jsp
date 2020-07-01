@@ -82,7 +82,7 @@
         var fuserpswd = $("#fuserpswd");
         var ftype = $("#ftype");
         var isNull = $("#isNull");
-        var loadingIndex;
+        var loadingIndex=-1;
 
 
         if($.trim(floginacct.val())==""){

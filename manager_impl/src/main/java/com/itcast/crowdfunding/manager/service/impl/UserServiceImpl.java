@@ -4,10 +4,13 @@ import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.exception.DefineException;
 import com.itcast.crowdfunding.manager.dao.UserMapper;
 import com.itcast.crowdfunding.manager.service.UserService;
+import com.itcast.crowdfunding.util.AjaxResult;
+import com.itcast.crowdfunding.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,5 +27,16 @@ public class UserServiceImpl implements UserService {
             throw new DefineException("用户名或密码错误!");
         }
         return userRes;
+    }
+
+    @Override
+    public Page queryList(Page page) {
+
+        List<User> userList =  userMapper.queryList(page.getStartIndex(),page.getPagesize());
+        int totalsize = userMapper.queryAllNum();
+        Page pageRes = page;
+        pageRes.setDatas(userList);
+        pageRes.setTotalsize(totalsize);
+        return pageRes;
     }
 }
