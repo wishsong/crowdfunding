@@ -10,5 +10,11 @@ import java.util.Map;
 
 public interface UserService {
     User login(Map userMap) throws DefineException;
-    Page queryList(Page page);
+
+    public Page queryList_1(Map<String,Object> paramMap);
+//    Page queryList(Page page);
+//
+//    Page queryListByQueryText(Page page,String queryText,String buttonType);
+
+
 }

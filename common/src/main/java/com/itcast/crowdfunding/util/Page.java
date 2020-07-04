@@ -1,5 +1,7 @@
 package com.itcast.crowdfunding.util;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.List;
 
 public class Page {
@@ -10,7 +12,9 @@ public class Page {
     private Integer totalsize;
     private Integer totalno;
 
+
     public Page(Integer pageno, Integer pagesize) {
+        System.out.println();
         if (pageno <= 0){
             this.pageno = 1;
         }else {

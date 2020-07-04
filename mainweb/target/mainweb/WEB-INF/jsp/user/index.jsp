@@ -58,7 +58,8 @@
                                 <input id="queryText" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <button id="queryBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-search"></i>精确查询</button>
+                        <button id="queryBtn_1" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i>模糊查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" id="deleteBatchBtn" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
                     <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
@@ -130,10 +131,13 @@
 
     var jsonObj = {
         "pageno" : 1,
-        "pagesize" : 10
+        "pagesize" : 10,
+        // "queryText":"",
+        // "buttonType":""
     };
     var loadingIndex = -1;
     function queryPageUser(pageIndex) {
+
         jsonObj.pageno = pageIndex + 1;
         $.ajax({
             type : "POST",
@@ -144,7 +148,6 @@
               return true;
             },
             success : function (result) {
-                alert(result.page.data);
                 layer.close(loadingIndex);
                 if (result.success){
                     var page = result.page;
@@ -174,7 +177,7 @@
                     num_edge_entries: 1, //边缘页数
                     num_display_entries: 2, //主体页数
                     callback: queryPageUser,
-                    items_per_page:10, //每页显示1项
+                    items_per_page:10, //每页显示10项
                     prev_text : "上一页",
                     next_text : "下一页",
                     current_page : (page.pageno - 1)
@@ -194,7 +197,15 @@
 
     $("#queryBtn").click(function () {
         var queryText = $("#queryText").val();
-        jsonObj.queryText = queryText;
+        jsonObj.queryText = $.trim(queryText);
+        jsonObj.buttonType = null;
+        queryPageUser(0);
+    });
+
+    $("#queryBtn_1").click(function () {
+        var queryText = $("#queryText").val();
+        jsonObj.queryText = $.trim(queryText);
+        jsonObj.buttonType = "vague";
         queryPageUser(0);
     });
     
