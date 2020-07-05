@@ -32,6 +32,7 @@
 				</if>
 			</if>
 		</where>
+		order by id desc
 		limit #{page.startIndex},#{page.pagesize}
 	</select>
 
@@ -49,6 +50,20 @@
 				</if>
 			</if>
 		</where>
+	</select>
+
+	<insert id="insert" parameterType="com.itcast.crowdfunding.bean.User" >
+		insert into t_user (loginacct,userpswd,username,email,createtime)
+		values (#{loginacct},#{userpswd},#{username},#{email},#{createtime})
+	</insert>
+
+	<update id="update" parameterType="com.itcast.crowdfunding.bean.User" >
+		update t_user set loginacct=#{loginacct},username=#{username},email=#{email} where id=#{id};
+	</update>
+
+
+	<select id="queryById"  parameterType="int" resultMap="BaseResultMap">
+		select * from t_user where id=#{id}
 	</select>
 
 <!--	<select id="queryList"  resultMap="BaseResultMap">-->

@@ -62,7 +62,7 @@
                         <button id="queryBtn_1" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i>模糊查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" id="deleteBatchBtn" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/add.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -164,7 +164,7 @@
                         content += '    <td>' + n.email + '</td>';
                         content += '    <td>';
                         content += '        <button type="button" onclick="window.location.href=\'${APP_PATH}/user/assignRole.htm?id=' + n.id + '\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        content += '        <button type="button" onclick="window.location.href=\'${APP_PATH}/user/toUpdate.htm?id=' + n.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                        content += '        <button type="button" onclick="window.location.href=\'${APP_PATH}/user/update.htm?id=' + n.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         content += '        <button type="button" onclick="deleteUser(' + n.id + ',\'' + n.loginacct + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content += '    </td>';
                         content += '</tr>';

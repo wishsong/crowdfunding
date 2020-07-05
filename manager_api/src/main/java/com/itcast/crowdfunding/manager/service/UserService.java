@@ -12,6 +12,12 @@ public interface UserService {
     User login(Map userMap) throws DefineException;
 
     public Page queryList_1(Map<String,Object> paramMap);
+
+    int saveUser(User user);
+
+    public User queryById(int id);
+
+    int updateUser(User user);
 //    Page queryList(Page page);
 //
 //    Page queryListByQueryText(Page page,String queryText,String buttonType);

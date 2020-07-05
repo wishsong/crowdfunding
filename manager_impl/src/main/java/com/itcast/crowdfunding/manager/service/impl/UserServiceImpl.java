@@ -5,11 +5,14 @@ import com.itcast.crowdfunding.exception.DefineException;
 import com.itcast.crowdfunding.manager.dao.UserMapper;
 import com.itcast.crowdfunding.manager.service.UserService;
 import com.itcast.crowdfunding.util.AjaxResult;
+import com.itcast.crowdfunding.util.MD5Util;
 import com.itcast.crowdfunding.util.Page;
 import com.itcast.crowdfunding.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,39 @@ public class UserServiceImpl implements UserService {
         return userRes;
     }
 
-//    @Override
+    @Override
+    public Page queryList_1(Map<String,Object> paramMap) {
+
+        List<User> userList =  userMapper.queryList_1(paramMap);
+        int totalsize = userMapper.queryAllNum_1(paramMap);
+        Page pageRes = (Page)paramMap.get("page");
+        pageRes.setDatas(userList);
+        pageRes.setTotalsize(totalsize);
+        return pageRes;
+    }
+
+    @Override
+    public int saveUser(User user) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        user.setCreatetime(simpleDateFormat.format(date));
+        user.setUserpswd(MD5Util.digest("111"));
+
+        return  userMapper.insert(user);
+    }
+
+    public User queryById(int id) {
+        User userRes = userMapper.queryById(id);
+        return userRes;
+    }
+
+    @Override
+    public int updateUser(User user) {
+        return userMapper.update(user);
+    }
+
+    //    @Override
 //    public Page queryList(Page page) {
 //
 //        List<User> userList =  userMapper.queryList(page.getStartIndex(),page.getPagesize());
@@ -56,17 +91,4 @@ public class UserServiceImpl implements UserService {
 //        pageRes.setTotalsize(totalsize);
 //        return pageRes;
 //    }
-
-
-
-    @Override
-    public Page queryList_1(Map<String,Object> paramMap) {
-
-        List<User> userList =  userMapper.queryList_1(paramMap);
-        int totalsize = userMapper.queryAllNum_1(paramMap);
-        Page pageRes = (Page)paramMap.get("page");
-        pageRes.setDatas(userList);
-        pageRes.setTotalsize(totalsize);
-        return pageRes;
-    }
 }

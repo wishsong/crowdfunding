@@ -26,4 +26,10 @@ public interface UserMapper {
 	List<User> queryList_1(Map<String, Object> paramMap);
 
 	int queryAllNum_1(Map<String, Object> paramMap);
+
+	int insert(User user);
+
+    User queryById(int id);
+
+	int update(User user);
 }
