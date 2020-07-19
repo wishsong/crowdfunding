@@ -255,11 +255,6 @@
             }
         });
 
-        if(ids.length==0){
-            layer.msg("至少选择一个用户进行删除！请选择用户！", {time: 1000, icon: 5, shift: 6});
-            return false;
-        }
-
 
         layer.confirm('确认要删除所选的[' +ids.length + ']个用户吗?', {icon: 3, title:'提示'}, function(cihdex){
             layer.close(cihdex);
@@ -311,10 +306,10 @@
 
     <%--    var jsonObj = {};--%>
 
-        $.each(selectCheckbox, function (i, n) {
-            jsonObj["datas[" + i + "].id"] = n.id;
-            jsonObj["datas[" + i + "].loginacct"] = n.name;
-        });
+    <%--    $.each(selectCheckbox, function (i, n) {--%>
+    <%--        jsonObj["datas[" + i + "].id"] = n.id;--%>
+    <%--        jsonObj["datas[" + i + "].loginacct"] = n.name;--%>
+    <%--    });--%>
 
     <%--    layer.confirm('确认要删除这些用户吗?', {icon: 3, title:'提示'}, function(cihdex){--%>
     <%--        layer.close(cihdex);--%>

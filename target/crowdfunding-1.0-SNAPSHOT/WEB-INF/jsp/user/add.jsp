@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: xw
   Date: 2019/12/24
-  Time: 12:16
+  Time: 10:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -46,29 +46,34 @@
             <ol class="breadcrumb">
                 <li><a href="#">首页</a></li>
                 <li><a href="#">数据列表</a></li>
-                <li class="active">修改</li>
+                <li class="active">新增</li>
             </ol>
             <div class="panel panel-default">
                 <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
                 <div class="panel-body">
-                    <form id="updateForm">
+                    <form id="addForm">
                         <div class="form-group">
                             <label for="floginacct">登陆账号</label>
-                            <input type="text" class="form-control" id="floginacct" value="${user.loginacct}">
+                            <input type="text" class="form-control" id="floginacct" placeholder="请输入登陆账号">
                             <p id="IsNull_floginacct" class="help-block label label-warning">登录账号不能为空！</p>
                         </div>
+
                         <div class="form-group">
                             <label for="fusername">用户名称</label>
-                            <input type="text" class="form-control" id="fusername" value="${user.username}">
+                            <input type="text" class="form-control" id="fusername" placeholder="请输入用户名称">
                             <p id="isNull_fusername" class="help-block label label-warning">用户名称不能为空！</p>
                         </div>
+
+
                         <div class="form-group">
                             <label for="femail">邮箱地址</label>
-                            <input type="email" class="form-control" id="femail" value="${user.email}">
+                            <input type="email" class="form-control" id="femail" placeholder="请输入邮箱地址">
                             <p id="email_format" class="help-block label label-warning">email不能为空！</p>
-<%--                            <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>--%>
+                            <%--  <p id="email_format" class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>--%>
                         </div>
-                        <button id="updateBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
+
+                        </div>
+                        <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                         <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
                     </form>
                 </div>
@@ -106,6 +111,8 @@
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
 <script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
+
+
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function(){
@@ -122,16 +129,11 @@
         $("#IsNull_floginacct").hide();
         $("#isNull_fusername").hide();
         $("#email_format").hide();
+
     });
 
-    $("#resetBtn").click(function () {
-        // $("#floginacct").val("");
-        // $("#fusername").val("");
-        // $("#femail").val("");
-        $("#updateForm")[0].reset();
-    });
+    $("#addBtn").click(function () {
 
-    $("#updateBtn").click(function () {
         var floginacct = $("#floginacct");
         var fusername = $("#fusername");
         var femail = $("#femail");
@@ -156,37 +158,39 @@
         }
         if($.trim(fusername.val())==""||$.trim(fusername.val())==""||$.trim(femail.val())==""){
             layer.msg("所有信息为必填项！", {time: 1000, icon: 5, shift: 6});
-            return false;
+           return false;
         }
 
+
         $.ajax({
-            type : "POST",
-            data : {
-                "loginacct" : floginacct.val(),
-                "username" : fusername.val(),
-                "email" : femail.val(),
-                "id" : ${user.id}
+           type : "POST",
+           data : {
+               "loginacct" : floginacct.val(),
+               "username" : fusername.val(),
+               "email" : femail.val()
             },
-            url : "${APP_PATH}/user/doUpdate.do",
+            url : "${APP_PATH}/user/doAdd.do",
             beforeSend : function() {
                 return true;
             },
             success : function (result) {
                 if (result.success){
-                    layer.msg("修改成功！", {time: 1000, icon: 6, shift: 0}, function(){
-                        window.location.href="${APP_PATH}/user/index.htm";
-                    });
-
-
+                    window.location.href="${APP_PATH}/user/index.htm";
                 }else {
                     layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                 }
             },
             error : function () {
-                layer.msg("修改用户失败！", {time: 1000, icon: 5, shift: 6});
+                layer.msg("保存用户失败！", {time: 1000, icon: 5, shift: 6});
             }
         });
+    });
+
+    $("#resetBtn").click(function () {
+        $("#addForm")[0].reset();
+
     });
 </script>
 </body>
 </html>
+

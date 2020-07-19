@@ -33,13 +33,14 @@
 
 <div class="container">
 
-    <form id="loginForm" action="${APP_PATH}/doLogin.do"  method="POST" class="form-signin" role="form">
-        ${exception.message}
+    <form id="loginForm"  method="POST" action="${APP_PATH}/doLogin.do"  class="form-signin" role="form">
+
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
-        <div class="form-group has-success has-feedback">
+        <div class="form-group has-success has-feedback" >
             <input type="text" class="form-control" id="floginacct" name="loginacct" placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
+        <p id="isNull"><font color="#dc143c">用户名不能为空！</font></p>
         <div class="form-group has-success has-feedback">
             <input type="password" class="form-control" id="fuserpswd" name="userpswd" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -62,79 +63,62 @@
                 <a href="reg.html">我要注册</a>
             </label>
         </div>
-        <button class="btn btn-lg btn-success btn-block" type="submit"> 登录</button>
+        <a class="btn btn-lg btn-success btn-block" onclick="login()"> 登录</a>
     </form>
-    <div class="alert alert-warning alert-dismissible msgTip" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>${requestScope.defineException.message}</strong>
-    </div>
+
+
 </div>
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script>
-    function dologin() {
 
+    $(function(){
+         $("#isNull").hide();
+    });
+
+    function login() {
         var floginacct = $("#floginacct");
         var fuserpswd = $("#fuserpswd");
         var ftype = $("#ftype");
+        var isNull = $("#isNull");
+        var loadingIndex=-1;
 
-        var loadingIndex = -1;
 
-        //对于表单数据而言不能用null进行判断,如果文本框什么都不输入,获取的值是""
-        if ($.trim(floginacct.val()) == ""){
-            //alert("用户账号不能为空，请重新输入！");
-            layer.msg("用户账号不能为空，请重新输入！", {time: 1000, icon: 5, shift: 6}, function () {
-                floginacct.val("");
-                floginacct.focus();
-            });
+        if($.trim(floginacct.val())==""){
+            floginacct.val("");
+            floginacct.css("borderColor","red");
+            isNull.show();
             return false;
         }
 
-        var flag = $("#rememberme")[0].checked; //是否选中【记住我】
         $.ajax({
-            type : "POST",
-            data : {
-                "loginacct" : floginacct.val(),
-                "userpswd" : fuserpswd.val(),
-                "type" : ftype.val(),
-                "rememberme":flag?"1":"0"
-            },
-            url : "${APP_PATH}/doLogin.do",
-            beforeSend : function(){
-                loadingIndex = layer.msg('处理中', {icon: 16});
-                //一般做表单数据校验.
-                return true;
-            },
-            success : function (result) {
-                layer.close(loadingIndex);
-                if (result.success){
-                    if ("member" == result.data){
-                        window.location.href="${APP_PATH}/member.htm";
-                    }else if("user" == result.data){
-                        //跳转主页面.
-                        window.location.href="${APP_PATH}/main.htm";
-                    }else {
-                        layer.msg("登录类型不合法！", {time: 1000, icon: 5, shift: 6});
+                type:"POST",
+                data:{"loginacct":floginacct.val(),"userpswd":fuserpswd.val(),"type":ftype.val()},
+                url:"${APP_PATH}/doLogin.do",
+                beforeSend: function(){
+                    loadingIndex = layer.msg("处理中...",{icon:16});
+                    return true;
+                },
+                success : function(result){
+                    layer.close(loadingIndex);
+                    if(result.success){
+                      window.location.href = "${APP_PATH}/main.htm";
+                    }else{
+                        $("#isNull").hide();
+                        layer.msg(result.message,{time:2000,icon:5,shift:6},function(){
+                            floginacct.focus();
+                        });
                     }
-
-                }else {
-                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
+                },
+                error : function(){
+                    layer.close(loadingIndex);
+                    $("#isNull").hide();
+                    layer.msg("登录失败！",{time:2000,icon:5,shift:6});
                 }
-            },
-            error : function () {
-                layer.msg("登录失败！", {time: 1000, icon: 5, shift: 6});
-            }
-        });
-
-        //$("#loginForm").submit();
-        /*var type = $(":selected").val();
-        if ( type == "user" ) {
-            window.location.href = "main.html";
-        } else {
-            window.location.href = "index.html";
-        }*/
+            });
     }
+
 </script>
 </body>
 </html>

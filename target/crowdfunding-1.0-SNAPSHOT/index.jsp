@@ -22,5 +22,7 @@
 
 <body>
     <jsp:forward page="/index.htm"></jsp:forward>
+
+<%--    <a href="${APP_PATH}/test/insert.do">跳转</a>--%>
 </body>
 </html>

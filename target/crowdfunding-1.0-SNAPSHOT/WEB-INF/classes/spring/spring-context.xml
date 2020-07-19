@@ -33,7 +33,7 @@
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
         <property name="dataSource" ref="dataSource"></property>
         <property name="mapperLocations">
             <list>
@@ -45,8 +45,8 @@
     <!-- 扫描Mapper映射配置 -->
 
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- <property name="basePackage" value="com.xw.atcrowdfunding.manager.dao,com.xw.atcrowdfunding.potal.dao"/> -->
-        <property name="basePackage" value="com.itcast.crowdfunding.*.dao"/>
+        <!-- <property name="basePackage" value="com.itcast.crowdfunding.manager.dao,com.itcast.crowdfunding.potal.dao"/> -->
+        <property name="basePackage" value="com.itcast.crowdfunding.manager.dao"/>
     </bean>
 
     <!-- 事务管理器 -->
@@ -59,6 +59,7 @@
             <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/>
             <tx:method name="query*" read-only="true"/>
             <tx:method name="get*" read-only="true"/>
+            <tx:method name="login" read-only="true"/>
         </tx:attributes>
     </tx:advice>
 

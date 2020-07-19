@@ -22,6 +22,7 @@
     <mvc:annotation-driven></mvc:annotation-driven>
 
     <!-- 字符串字符编码转换 -->
+<!--    将返回的AjaxResult对象转换成一个字符串的形式-->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -50,7 +51,7 @@
         <!--<property name="exceptionAttribute" value="exception"></property>--><!--异常解析器捕获异常后,会将异常对象存放到request域.属性名称默认为exception-->
         <property name="exceptionMappings">
             <props>
-                <prop key="java.lang.Exception">error/error</prop>
+<!--                <prop key="java.lang.Exception">error/error</prop>-->
                 <prop key="com.itcast.crowdfunding.exception.DefineException">login</prop>
             </props>
         </property>

@@ -34,10 +34,10 @@ public class UserController {
     }
 
     @RequestMapping("/update")
-    public String update(String id, HttpServletRequest request){
+    public String update(String id, Map map){
 
         User userRes = userService.queryById(Integer.parseInt(id));
-        request.setAttribute("user",userRes);
+        map.put("user", userRes);
         return "user/update";
     }
 
@@ -114,6 +114,43 @@ public class UserController {
         }
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/doDelete")
+    public Object doDelete(String id){
+        AjaxResult result = new AjaxResult();
+
+        try {
+            int res = userService.deleteUser(id);
+            result.setSuccess(res==1);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("删除失败！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/doDeletes")
+    public Object doDeletes(String[] ids){
+        AjaxResult result = new AjaxResult();
+
+        try {
+            int res = 0;
+            for(String id:ids){
+                System.out.println(id);
+               res += userService.deleteUser(id);
+                result.setSuccess(res==ids.length);
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("删除失败！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 //    @ResponseBody
 //    @RequestMapping("/doIndex")

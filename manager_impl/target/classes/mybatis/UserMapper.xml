@@ -66,6 +66,10 @@
 		select * from t_user where id=#{id}
 	</select>
 
+	<delete id="deleteById"  parameterType="int">
+		delete from t_user where id=#{id}
+	</delete>
+
 <!--	<select id="queryList"  resultMap="BaseResultMap">-->
 <!--		select * from t_user limit #{startIndex},#{pagesize}-->
 <!--	</select>-->

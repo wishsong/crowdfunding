@@ -18,6 +18,8 @@ public interface UserService {
     public User queryById(int id);
 
     int updateUser(User user);
+
+    int deleteUser(String id);
 //    Page queryList(Page page);
 //
 //    Page queryListByQueryText(Page page,String queryText,String buttonType);

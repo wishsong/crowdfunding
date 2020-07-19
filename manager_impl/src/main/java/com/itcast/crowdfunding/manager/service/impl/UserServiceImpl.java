@@ -65,6 +65,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.update(user);
     }
 
+    @Override
+    public int deleteUser(String id) {
+
+        return  userMapper.deleteById(Integer.parseInt(id));
+    }
+
     //    @Override
 //    public Page queryList(Page page) {
 //

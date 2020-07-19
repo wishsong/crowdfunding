@@ -32,4 +32,6 @@ public interface UserMapper {
     User queryById(int id);
 
 	int update(User user);
+
+    int deleteById(int id);
 }
