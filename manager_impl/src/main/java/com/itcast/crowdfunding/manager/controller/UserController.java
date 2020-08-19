@@ -1,19 +1,24 @@
 package com.itcast.crowdfunding.manager.controller;
 
 
+import com.itcast.crowdfunding.bean.Role;
 import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.manager.service.UserService;
 import com.itcast.crowdfunding.util.AjaxResult;
 import com.itcast.crowdfunding.util.Page;
 import com.itcast.crowdfunding.util.StringUtil;
+import com.itcast.crowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -39,6 +44,34 @@ public class UserController {
         User userRes = userService.queryById(Integer.parseInt(id));
         map.put("user", userRes);
         return "user/update";
+    }
+
+
+    @RequestMapping("/assignRole")
+    public String assignRole(String id,Map map){
+
+        List<Role> allRole = new ArrayList<Role>();
+        List<Integer> assignedRole = new ArrayList<Integer>();
+
+        List<Role> leftRoleList = new ArrayList<Role>();
+        List<Role> rightRoleList = new ArrayList<Role>();
+
+        allRole = userService.queryAllRole();
+        assignedRole = userService.queryAssignedRole(Integer.parseInt(id));
+
+        for(Role role:allRole){
+            if(assignedRole.contains(role.getId())){
+                rightRoleList.add(role);
+            }else{
+                leftRoleList.add(role);
+            }
+        }
+
+        map.put("leftRoleList",leftRoleList);
+        map.put("rightRoleList",rightRoleList);
+
+
+        return "user/assignRole";
     }
 
     @ResponseBody
@@ -150,6 +183,38 @@ public class UserController {
         }
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping("/doAssignRole")
+    public Object doAssignRole(String userid, Data data){
+        AjaxResult result = new AjaxResult();
+        try {
+            int res = userService.assignRole(userid,data);
+            result.setSuccess(res>=0);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("分配角色失败！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/doUnAssignRole")
+    public Object doUnAssignRole(String userid, Data data){
+        AjaxResult result = new AjaxResult();
+        try {
+            int res = userService.assignRole(userid,data);
+            result.setSuccess(res==data.getIds().size());
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("取消角色失败！");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 
 //    @ResponseBody

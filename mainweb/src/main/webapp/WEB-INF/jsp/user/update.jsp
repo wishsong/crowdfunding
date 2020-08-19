@@ -176,8 +176,6 @@
                     layer.msg("修改成功！", {time: 1000, icon: 6, shift: 0}, function(){
                         window.location.href="${APP_PATH}/user/index.htm";
                     });
-
-
                 }else {
                     layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                 }

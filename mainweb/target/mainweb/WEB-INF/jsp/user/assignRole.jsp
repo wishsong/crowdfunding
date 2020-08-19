@@ -1,11 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
   User: xw
-  Date: 2019/12/24
-  Time: 12:16
+  Date: 2019/12/25
+  Time: 17:31
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -46,30 +47,34 @@
             <ol class="breadcrumb">
                 <li><a href="#">首页</a></li>
                 <li><a href="#">数据列表</a></li>
-                <li class="active">修改</li>
+                <li class="active">分配角色</li>
             </ol>
             <div class="panel panel-default">
-                <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
                 <div class="panel-body">
-                    <form id="updateForm">
+                    <form role="form" class="form-inline">
                         <div class="form-group">
-                            <label for="floginacct">登陆账号</label>
-                            <input type="text" class="form-control" id="floginacct" value="${user.loginacct}">
-                            <p id="IsNull_floginacct" class="help-block label label-warning">登录账号不能为空！</p>
+                            <label for="exampleInputPassword1">未分配角色列表</label><br>
+                            <select id="leftRoleList" class="form-control" multiple size="10" style="width:200px;overflow-y:auto;">
+                                <c:forEach items="${leftRoleList}" var="role">
+                                    <option value="${role.id}">${role.name}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="fusername">用户名称</label>
-                            <input type="text" class="form-control" id="fusername" value="${user.username}">
-                            <p id="isNull_fusername" class="help-block label label-warning">用户名称不能为空！</p>
+                            <ul>
+                                <li id="leftToRightBtn" class="btn btn-default glyphicon glyphicon-chevron-right"></li>
+                                <br>
+                                <li id="rightToLeftBtn" class="btn btn-default glyphicon glyphicon-chevron-left" style="margin-top:20px;"></li>
+                            </ul>
                         </div>
-                        <div class="form-group">
-                            <label for="femail">邮箱地址</label>
-                            <input type="email" class="form-control" id="femail" value="${user.email}">
-                            <p id="email_format" class="help-block label label-warning">email不能为空！</p>
-<%--                            <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>--%>
+                        <div class="form-group" style="margin-left:40px;">
+                            <label for="exampleInputPassword1">已分配角色列表</label><br>
+                            <select id="rightRoleList" class="form-control" multiple size="10" style="width:200px;overflow-y:auto;">
+                                <c:forEach items="${rightRoleList}" var="role">
+                                    <option value="${role.id}">${role.name}</option>
+                                </c:forEach>
+                            </select>
                         </div>
-                        <button id="updateBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
-                        <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
                     </form>
                 </div>
             </div>
@@ -118,73 +123,79 @@
                 }
             }
         });
-
-        $("#IsNull_floginacct").hide();
-        $("#isNull_fusername").hide();
-        $("#email_format").hide();
     });
 
-    $("#resetBtn").click(function () {
-        // $("#floginacct").val("");
-        // $("#fusername").val("");
-        // $("#femail").val("");
-        $("#updateForm")[0].reset();
-    });
+    //分配角色
+    $("#leftToRightBtn").click(function () {
+        var selectedOptions = $("#leftRoleList option:selected");
 
-    $("#updateBtn").click(function () {
-        var floginacct = $("#floginacct");
-        var fusername = $("#fusername");
-        var femail = $("#femail");
+        var jsonObj = {
+            userid : ${param.id}
+        };
 
-        if($.trim(floginacct.val())==""){
-            floginacct.val("");
-            floginacct.css("borderColor","red");
-            $("#IsNull_floginacct").show();
-
-        }
-        if($.trim(fusername.val())==""){
-            fusername.val("");
-            fusername.css("borderColor","red");
-            $("#isNull_fusername").show();
-
-        }
-        if($.trim(femail.val())==""){
-            femail.val("");
-            femail.css("borderColor","red");
-            $("#email_format").show();
-
-        }
-        if($.trim(fusername.val())==""||$.trim(fusername.val())==""||$.trim(femail.val())==""){
-            layer.msg("所有信息为必填项！", {time: 1000, icon: 5, shift: 6});
-            return false;
-        }
-
+        $.each(selectedOptions, function (i, n) {
+            jsonObj["ids[" + i + "]"] = this.value;
+        });
+        var index = -1;
         $.ajax({
             type : "POST",
-            data : {
-                "loginacct" : floginacct.val(),
-                "username" : fusername.val(),
-                "email" : femail.val(),
-                "id" : ${user.id}
-            },
-            url : "${APP_PATH}/user/doUpdate.do",
-            beforeSend : function() {
+            data : jsonObj,
+            url : "${APP_PATH}/user/doAssignRole.do",
+            beforeSend : function () {
+                index = layer.load(2, {time: 1*1000});
                 return true;
             },
             success : function (result) {
+                layer.close(index);
+
                 if (result.success){
-                    layer.msg("修改成功！", {time: 1000, icon: 6, shift: 0}, function(){
-                        window.location.href="${APP_PATH}/user/index.htm";
-                    });
+                    $("#rightRoleList").append(selectedOptions.clone());
+                    selectedOptions.remove();
                 }else {
-                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
+                    layer.msg("操作失败", {time: 1000, icon: 5, shift: 6});
                 }
             },
             error : function () {
-                layer.msg("修改用户失败！", {time: 1000, icon: 5, shift: 6});
+                alert("错误");
+            }
+        });
+    });
+
+    //取消角色
+    $("#rightToLeftBtn").click(function () {
+        var selectedOptions = $("#rightRoleList option:selected");
+
+        var jsonObj = {
+            userid : ${param.id}
+        };
+
+        $.each(selectedOptions, function (i, n) {
+            jsonObj["ids[" + i + "]"] = this.value;
+        });
+        var index = -1;
+        $.ajax({
+            type : "POST",
+            data : jsonObj,
+            url : "${APP_PATH}/user/doUnAssignRole.do",
+            beforeSend : function () {
+                index = layer.load(2, {time: 1*1000});
+                return true;
+            },
+            success : function (result) {
+                layer.close(index);
+                if (result.success){
+                    $("#leftRoleList").append(selectedOptions.clone());
+                    selectedOptions.remove();
+                }else {
+                    layer.msg("操作失败", {time: 1000, icon: 5, shift: 6});
+                }
+            },
+            error : function () {
+                alert("错误");
             }
         });
     });
 </script>
 </body>
 </html>
+

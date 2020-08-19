@@ -34,4 +34,12 @@ public interface UserMapper {
 	int update(User user);
 
     int deleteById(int id);
+
+	List<Role> queryAllRole();
+
+	List<Integer> queryAssignedRole(int id);
+
+	int assginRole(Map map);
+
+	int unassginRole(Map<String, Object> map);
 }

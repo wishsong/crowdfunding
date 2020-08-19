@@ -70,6 +70,47 @@
 		delete from t_user where id=#{id}
 	</delete>
 
+	<select id="queryAllRole"   resultType="com.itcast.crowdfunding.bean.Role">
+		select * from t_role
+	</select>
+
+	<select id="queryAssignedRole"  parameterType="int" resultType="int">
+		select roleid from t_user_role where userid=#{id}
+	</select>
+
+
+	<insert id="assginRole" parameterType="map" >
+
+<!--		insert into t_user_role (userid,roleid)-->
+<!--		values <foreach collection="ids" item="roleid" separator=",">-->
+<!--		(#{userid},#{roleid})-->
+<!--	</foreach>-->
+		<if test="ids!=null and ids.size>0">
+			<foreach  collection="ids" item="roleid" separator=";">
+				insert into t_user_role (userid,roleid)values(#{userid},#{roleid})
+			</foreach>
+		</if>
+
+	</insert>
+
+	<delete id="unassginRole"  parameterType="map">
+
+		<if test="ids!=null and ids.size>0">
+			delete from t_user_role where id=#{id}
+			<foreach collection="ids" separator="," item="roleid" open="and roleid in (" close=")">
+				#{roleid}
+			</foreach>
+		</if>
+
+	</delete>
+
+
+
+
+
+
+
+
 <!--	<select id="queryList"  resultMap="BaseResultMap">-->
 <!--		select * from t_user limit #{startIndex},#{pagesize}-->
 <!--	</select>-->

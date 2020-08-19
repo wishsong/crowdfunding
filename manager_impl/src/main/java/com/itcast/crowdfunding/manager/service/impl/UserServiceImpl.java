@@ -1,5 +1,6 @@
 package com.itcast.crowdfunding.manager.service.impl;
 
+import com.itcast.crowdfunding.bean.Role;
 import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.exception.DefineException;
 import com.itcast.crowdfunding.manager.dao.UserMapper;
@@ -8,6 +9,7 @@ import com.itcast.crowdfunding.util.AjaxResult;
 import com.itcast.crowdfunding.util.MD5Util;
 import com.itcast.crowdfunding.util.Page;
 import com.itcast.crowdfunding.util.StringUtil;
+import com.itcast.crowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +72,33 @@ public class UserServiceImpl implements UserService {
 
         return  userMapper.deleteById(Integer.parseInt(id));
     }
+
+    @Override
+    public List<Role> queryAllRole() {
+        return userMapper.queryAllRole();
+    }
+
+    @Override
+    public List<Integer> queryAssignedRole(int id) {
+        return userMapper.queryAssignedRole(id);
+    }
+
+    @Override
+    public int assignRole(String userid, Data data) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("userid",Integer.parseInt(userid));
+        map.put("ids",data.getIds());
+        return userMapper.assginRole(map);
+    }
+
+    @Override
+    public int unassignRole(String userid, Data data) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("userid",Integer.parseInt(userid));
+        map.put("ids",data.getIds());
+        return userMapper.unassginRole(map);
+    }
+
 
     //    @Override
 //    public Page queryList(Page page) {

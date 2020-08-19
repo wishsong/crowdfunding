@@ -58,8 +58,9 @@ public class MD5Util {
 	public static void main(String args[]) {
 //		String s = new String("111");
 //		System.out.println(digest(s));
-		int[] str = new int[]{1,2};
-		System.out.println(Arrays.toString(str));
+		String s = new String();
+		System.out.println(s);
+		System.out.println("".equals(s));
 	}
 
 }

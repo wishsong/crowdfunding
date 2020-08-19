@@ -245,14 +245,28 @@
         $("tbody tr td input[type='checkbox']").prop("checked", checkedStatus);
     });
 
+    $.each($("tbody tr td input[type='checkbox']"),function(i,n){
+        $(n).click(function(){
+            alert("非全选");
+            $.each($("tbody tr td input[type='checkbox']"),function(i,n){
+                if(n.check==false){
+                    alert("不是全选");
+                    $("#allCheckbox").prop("checked",false);
+                }
+            });
+        });
+    });
+
+
     $("#deleteBatchBtn").click(function () {
 
         var ids = new Array(0);
 
-        $("input[type='checkbox']:gt(0)").each(function(i,n){
-            if($(n).prop("checked")==true){
-                ids.push(n.id);
-            }
+        $("input[type='checkbox']:gt(0):checked").each(function(i,n){
+            // if($(n).prop("checked")==true){
+            //     ids.push(n.id);
+            // }
+            ids.push(n.id);
         });
 
         if(ids.length==0){
@@ -289,58 +303,7 @@
         }, function (cihdex) {
             layer.close(cihdex);
         });
-
-
     });
-
-    <%--$("#deleteBatchBtn").click(function () {--%>
-    <%--    var selectCheckbox = $("tbody tr td input:checked");--%>
-
-    <%--    if (selectCheckbox.length == 0){--%>
-    <%--        layer.msg("至少选择一个用户进行删除！请选择用户！", {time: 1000, icon: 5, shift: 6});--%>
-    <%--        return false;--%>
-    <%--    }--%>
-    <%--    /*--%>
-    <%--    var idStr = "";--%>
-    <%--    $.each(selectCheckbox, function (i, n) {--%>
-    <%--        if (i != 0){--%>
-    <%--            idStr += "&";--%>
-    <%--        }--%>
-    <%--        idStr += "id=" + n.id;--%>
-    <%--    });*/--%>
-
-    <%--    var jsonObj = {};--%>
-
-        $.each(selectCheckbox, function (i, n) {
-            jsonObj["datas[" + i + "].id"] = n.id;
-            jsonObj["datas[" + i + "].loginacct"] = n.name;
-        });
-
-    <%--    layer.confirm('确认要删除这些用户吗?', {icon: 3, title:'提示'}, function(cihdex){--%>
-    <%--        layer.close(cihdex);--%>
-    <%--        $.ajax({--%>
-    <%--            type : "POST",--%>
-    <%--            // data : idStr,--%>
-    <%--            data : jsonObj,--%>
-    <%--            url : "${APP_PATH}/user/doDeleteBatch.do",--%>
-    <%--            beforeSend : function() {--%>
-    <%--                return true;--%>
-    <%--            },--%>
-    <%--            success : function (result) {--%>
-    <%--                if (result.success){--%>
-    <%--                    window.location.href="${APP_PATH}/user/index.htm";--%>
-    <%--                }else {--%>
-    <%--                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});--%>
-    <%--                }--%>
-    <%--            },--%>
-    <%--            error : function () {--%>
-    <%--                layer.msg("删除用户失败！", {time: 1000, icon: 5, shift: 6});--%>
-    <%--            }--%>
-    <%--        });--%>
-    <%--    }, function (cihdex) {--%>
-    <%--        layer.close(cihdex);--%>
-    <%--    });--%>
-    <%--});--%>
 
 </script>
 <script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>
