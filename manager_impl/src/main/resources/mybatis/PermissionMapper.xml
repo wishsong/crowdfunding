@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itcast.crowdfunding.manager.dao.PermissionMapper">
+
+    <select id="queryRootPermission"  resultType="com.itcast.crowdfunding.bean.Permission">
+		select * from t_permission where pid is null
+	</select>
+
+    <select id="queryChildrenById"  parameterType="int" resultType="com.itcast.crowdfunding.bean.Permission">
+		select * from t_permission where pid=#{id}
+	</select>
+
+
+	<select id="queryAllPermission" resultType="com.itcast.crowdfunding.bean.Permission">
+		select * from t_permission
+	</select>
+
+</mapper>
