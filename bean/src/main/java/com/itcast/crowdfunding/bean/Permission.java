@@ -93,4 +93,19 @@ public class Permission {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id=" + id +
+                ", pid=" + pid +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", url='" + url + '\'' +
+                ", open=" + open +
+                ", checked=" + checked +
+                ", level=" + level +
+                ", children=" + children +
+                '}';
+    }
 }
