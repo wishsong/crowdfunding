@@ -15,4 +15,21 @@
 		select * from t_permission
 	</select>
 
+	<insert id="addPermission" parameterType="com.itcast.crowdfunding.bean.Permission" >
+		insert into t_permission (pid,name,url)
+		values (#{pid},#{name},#{url})
+	</insert>
+
+	<delete id="deletePermission"  parameterType="int">
+		delete from t_permission where id=#{id}
+	</delete>
+
+	<update id="updatePermission" parameterType="com.itcast.crowdfunding.bean.Permission" >
+		update t_permission set name=#{name},url=#{url} where id=#{id};
+	</update>
+
+	<select id="queryPermissionById" resultType="com.itcast.crowdfunding.bean.Permission">
+		select * from t_permission where id=#{id}
+	</select>
+
 </mapper>

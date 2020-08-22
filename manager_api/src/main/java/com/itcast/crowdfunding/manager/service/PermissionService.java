@@ -10,4 +10,12 @@ public interface PermissionService {
     List<Permission> queryChildrenById(Integer id);
 
     List<Permission> queryAllPermission();
+
+    int addPermission(Permission permission);
+
+    int deletePermission(String id);
+
+    int updatePermission(Permission permission);
+
+    Permission queryPermissionById(int id);
 }

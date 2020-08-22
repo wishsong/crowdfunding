@@ -10,4 +10,12 @@ public interface PermissionMapper {
     List<Permission> queryChildrenById(Integer id);
 
     List<Permission> queryAllPermission();
+
+    int addPermission(Permission permission);
+
+    int deletePermission(int parseInt);
+
+    int updatePermission(Permission permission);
+
+    Permission queryPermissionById(int id);
 }
