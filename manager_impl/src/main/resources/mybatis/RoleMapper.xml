@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itcast.crowdfunding.manager.dao.RoleMapper">
+
+    <select id="queryList" parameterType="map" resultType="com.itcast.crowdfunding.bean.Role">
+        select * from t_role
+        order by id desc
+        limit #{page.startIndex},#{page.pagesize}
+    </select>
+
+    <select id="queryAllNum" parameterType="map" resultType="int">
+        select count(*) from t_role
+
+    </select>
+
+
+    <delete id="deleteRolePermission" >
+        delete from t_role_permission where roleid=#{roleid}
+    </delete>
+
+    <insert id="insert" parameterType="map">
+            insert into t_role_permission (roleid,permissionid)values(#{roleid},#{permissionid})
+    </insert>
+
+
+</mapper>

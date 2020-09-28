@@ -18,4 +18,6 @@ public interface PermissionService {
     int updatePermission(Permission permission);
 
     Permission queryPermissionById(int id);
+
+    List<Integer> queryPermissionidsByRoleid(Integer roleid);
 }

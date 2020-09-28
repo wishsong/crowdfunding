@@ -80,6 +80,7 @@
     });
 
     var setting = {
+
         view : {
             addDiyDom: function (treeId, treeNode) {
                 var icoObj = $("#" + treeNode.tId + "_ico"); // tId = permissionTree_1, $("#permissionTree_1_ico")
@@ -98,12 +99,12 @@
                 } else if ( treeNode.level == 1 ) { //分支节点
                     s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#" onclick="window.location.href=\'${APP_PATH}/permission/toUpdate.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
                     if (treeNode.children.length == 0) {
-                        s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+','+treeNode.name+')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                        s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
                     }
                     s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="window.location.href=\'${APP_PATH}/permission/toAdd.htm?id='+treeNode.id+'\'">&nbsp;&nbsp;<i class="fa fa-fw fa-plus rbg "></i></a>';
                 } else if ( treeNode.level == 2 ) { //叶子节点
                     s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#"  onclick="window.location.href=\'${APP_PATH}/permission/toUpdate.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
-                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+','+treeNode.name+')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
                 }
 
                 s += '</span>';
@@ -115,52 +116,6 @@
         }
     };
 
-    /*var zNodes =[
-        { name:"父节点1 - 展开", open:true,
-            children: [
-                { name:"父节点11 - 折叠",
-                    children: [
-                        { name:"叶子节点111"},
-                        { name:"叶子节点112"},
-                        { name:"叶子节点113"},
-                        { name:"叶子节点114"}
-                    ]},
-                { name:"父节点12 - 折叠",
-                    children: [
-                        { name:"叶子节点121"},
-                        { name:"叶子节点122"},
-                        { name:"叶子节点123"},
-                        { name:"叶子节点124"}
-                    ]},
-                { name:"父节点13 - 没有子节点", isParent:true}
-            ]},
-        { name:"父节点2 - 折叠",
-            children: [
-                { name:"父节点21 - 展开", open:true,
-                    children: [
-                        { name:"叶子节点211"},
-                        { name:"叶子节点212"},
-                        { name:"叶子节点213"},
-                        { name:"叶子节点214"}
-                    ]},
-                { name:"父节点22 - 折叠",
-                    children: [
-                        { name:"叶子节点221"},
-                        { name:"叶子节点222"},
-                        { name:"叶子节点223"},
-                        { name:"叶子节点224"}
-                    ]},
-                { name:"父节点23 - 折叠",
-                    children: [
-                        { name:"叶子节点231"},
-                        { name:"叶子节点232"},
-                        { name:"叶子节点233"},
-                        { name:"叶子节点234"}
-                    ]}
-            ]},
-        { name:"父节点3 - 没有子节点", isParent:true}
-
-    ];*/
     function loadData(){
         $.ajax({
             url : "${APP_PATH}/permission/loadData.do",
@@ -176,10 +131,9 @@
         });
     }
 
-    function deletePermission(id, name) {
-        alert("删除");
+    function deletePermission(id) {
 
-        layer.confirm('确认要删除[' + name + ']许可吗?', {icon: 3, title:'提示'}, function(cihdex){
+        layer.confirm('确认要删该许可吗?', {icon: 3, title:'提示'}, function(cihdex){
             layer.close(cihdex);
             $.ajax({
                 url : "${APP_PATH}/permission/deletePermission.do",
@@ -200,9 +154,7 @@
         });
     }
 
-    /*$(document).ready(function(){
-        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-    });*/
+
 </script>
 <script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>
 </body>
