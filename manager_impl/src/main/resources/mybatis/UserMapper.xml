@@ -96,13 +96,23 @@
 	<delete id="unassginRole"  parameterType="map">
 
 		<if test="ids!=null and ids.size>0">
-			delete from t_user_role where id=#{id}
+			delete from t_user_role where userid=#{userid}
 			<foreach collection="ids" separator="," item="roleid" open="and roleid in (" close=")">
 				#{roleid}
 			</foreach>
 		</if>
 
 	</delete>
+
+	<select id="queryPermissionByUserId"  parameterType="int" resultType="com.itcast.crowdfunding.bean.Permission">
+
+		select distinct t_permission.* from t_permission,t_role_permission,t_role,t_user_role,t_user
+		where t_permission.id=t_role_permission.permissionid
+		and t_role_permission.roleid=t_role.id
+		and t_role.id=t_user_role.roleid
+		and t_user_role.userid=t_user.id
+		and t_user.id=#{id} order by id asc;
+	</select>
 
 
 

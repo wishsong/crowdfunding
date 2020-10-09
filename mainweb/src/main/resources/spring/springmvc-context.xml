@@ -64,9 +64,9 @@
     </bean>
 
 
-    <!-- 声明拦截器对象 -->
-<!--    <mvc:interceptors>-->
-<!--        <bean id="loginInterceptor" class="com.itcast.interceptor.LoginInterceptor"></bean>-->
-<!--        <bean id="authInterceptor" class="com.itcast.interceptor.AuthInterceptor"></bean>-->
-<!--    </mvc:interceptors>-->
+<!--     声明拦截器对象 -->
+    <mvc:interceptors>
+        <bean id="loginInterceptor" class="com.itcast.crowdfunding.interceptor.LoginInterceptor"></bean>
+        <bean id="authInterceptor" class="com.itcast.crowdfunding.interceptor.AuthInterceptor"></bean>
+    </mvc:interceptors>
 </beans>

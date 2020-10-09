@@ -1,6 +1,7 @@
 package com.itcast.crowdfunding.controller;
 
 
+import com.itcast.crowdfunding.bean.Permission;
 import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.exception.DefineException;
 import com.itcast.crowdfunding.manager.service.UserService;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatcherController {
@@ -80,7 +80,32 @@ public class DispatcherController {
     }
 
     @RequestMapping("/main")
-    public String main(){
+    public String main(HttpSession session){
+
+        Permission permissionRoot = new Permission();
+        List<Permission> permissions = new ArrayList<Permission>();
+        permissions = userService.queryPermissionByUser((User)session.getAttribute(Const.LOGIN_USER));
+        Set<String> myURIs = new HashSet<String>();
+        for(Permission permission:permissions){
+            myURIs.add("/"+permission.getUrl());
+        }
+        session.setAttribute(Const.MY_URIS,myURIs);
+
+        Map<Integer,Permission> permissionMap = new HashMap<>();
+        for(Permission permission:permissions){
+            permissionMap.put(permission.getId(),permission);
+        }
+
+        for(Permission permission:permissions){
+            if(permission.getPid()==null){
+                permissionRoot = permission;
+            }else{
+                Permission parent = permissionMap.get(permission.getPid());
+                parent.getChildren().add(permission);
+            }
+        }
+
+        session.setAttribute("permissionRoot",permissionRoot);
         return "main";
     }
 

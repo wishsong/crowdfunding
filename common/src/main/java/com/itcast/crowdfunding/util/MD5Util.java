@@ -2,7 +2,7 @@ package com.itcast.crowdfunding.util;
 
 import java.lang.reflect.Array;
 import java.security.MessageDigest;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * MD5算法 哈希算法 MD5算法具有以下特点： 1、压缩性：任意长度的数据，算出的MD5值长度都是固定的。 2、容易计算：从原数据计算出MD5值很容易。
@@ -58,9 +58,17 @@ public class MD5Util {
 	public static void main(String args[]) {
 //		String s = new String("111");
 //		System.out.println(digest(s));
-		String s = new String();
-		System.out.println(s);
-		System.out.println("".equals(s));
+//		String s = new String();
+//		System.out.println(s);
+//		System.out.println("".equals(s));
+
+		List<String> set = new ArrayList<>();
+		set.add("1");
+		List<Object> ss = new ArrayList<>();
+		ss.add(set);
+		List<String> t = (LinkedList<String>)ss.get(0);
+		System.out.println(t);
+
 	}
 
 }

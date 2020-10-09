@@ -42,4 +42,6 @@ public interface UserMapper {
 	int assginRole(Map map);
 
 	int unassginRole(Map<String, Object> map);
+
+    List<Permission> queryPermissionByUserId(Integer id);
 }

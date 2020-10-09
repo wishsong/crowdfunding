@@ -1,5 +1,6 @@
 package com.itcast.crowdfunding.manager.service.impl;
 
+import com.itcast.crowdfunding.bean.Permission;
 import com.itcast.crowdfunding.bean.Role;
 import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.exception.DefineException;
@@ -97,6 +98,11 @@ public class UserServiceImpl implements UserService {
         map.put("userid",Integer.parseInt(userid));
         map.put("ids",data.getIds());
         return userMapper.unassginRole(map);
+    }
+
+    @Override
+    public List<Permission> queryPermissionByUser(User user) {
+        return userMapper.queryPermissionByUserId(user.getId());
     }
 
 

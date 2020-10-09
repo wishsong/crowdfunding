@@ -205,7 +205,7 @@ public class UserController {
     public Object doUnAssignRole(String userid, Data data){
         AjaxResult result = new AjaxResult();
         try {
-            int res = userService.assignRole(userid,data);
+            int res = userService.unassignRole(userid,data);
             result.setSuccess(res==data.getIds().size());
         } catch (Exception e) {
             result.setSuccess(false);

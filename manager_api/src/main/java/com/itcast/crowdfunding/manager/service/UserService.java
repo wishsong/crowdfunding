@@ -1,5 +1,6 @@
 package com.itcast.crowdfunding.manager.service;
 
+import com.itcast.crowdfunding.bean.Permission;
 import com.itcast.crowdfunding.bean.Role;
 import com.itcast.crowdfunding.bean.User;
 import com.itcast.crowdfunding.exception.DefineException;
@@ -29,6 +30,8 @@ public interface UserService {
 
     int assignRole(String userid, Data data);
     int unassignRole(String userid, Data data);
+
+    List<Permission> queryPermissionByUser(User user);
 //    Page queryList(Page page);
 //
 //    Page queryListByQueryText(Page page,String queryText,String buttonType);
